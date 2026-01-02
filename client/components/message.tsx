@@ -24,10 +24,6 @@ export default function ChatMessageItem({
 
     const isCurrentlyReplied = repliedMessage?.id === message.id;
 
-    const fixedUrl = message.file?.url
-        ? message.file.url.replace(/^https:\/\/https\/\//, 'https://')
-        : undefined;
-
     return (
         <div
             className={`flex ${isOwner ? "justify-end" : "justify-start"} px-2 py-1`}
@@ -83,7 +79,7 @@ export default function ChatMessageItem({
                                 📎 <span className="truncate">{message.file.name}</span>
                             </div>
                             <a
-                                href={fixedUrl}
+                                href={message.file.url}
                                 download={message.file.name}
                                 className="block text-[0.72rem] text-indigo-300 hover:underline mt-0.5"
                             >

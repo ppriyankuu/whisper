@@ -28,6 +28,7 @@ function createServer(port) {
     app.use((0, cors_1.default)());
     app.use(express_1.default.raw({ limit: "10mb", type: "*/*" }));
     app.post("/upload", (req, res) => __awaiter(this, void 0, void 0, function* () {
+        var _a;
         const { roomId, userId } = req.query;
         if (!roomId || !userId || typeof roomId !== "string" || typeof userId !== "string") {
             return res.status(400).send("Missing or invalid roomId/userId");
@@ -35,7 +36,7 @@ function createServer(port) {
         try {
             yield rateLimiter_1.uploadLimiter.consume(userId);
         }
-        catch (_a) {
+        catch (_b) {
             return res.status(429).send("Rate limit exceeded");
         }
         const room = roomManager_1.roomManager.getRoom(roomId);
@@ -52,9 +53,7 @@ function createServer(port) {
         const filename = req.get("x-filename") || "unnamed";
         const contentType = req.get("content-type") || "application/octet-stream";
         const file = (0, fileStore_1.storedFile)(roomId, filename, buffer, contentType);
-        const baseUrl = process.env.RENDER_EXTERNAL_URL
-            ? `https://${process.env.RENDER_EXTERNAL_URL}`
-            : `http://localhost:${port}`;
+        const baseUrl = (_a = process.env.RENDER_EXTERNAL_URL) !== null && _a !== void 0 ? _a : `http://localhost:${port}`;
         const meta = {
             id: file.id,
             name: file.name,

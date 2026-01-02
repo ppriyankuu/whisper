@@ -51,8 +51,7 @@ function createServer(port: number) {
         const file = storedFile(roomId, filename, buffer, contentType);
 
         const baseUrl = process.env.RENDER_EXTERNAL_URL
-            ? `https://${process.env.RENDER_EXTERNAL_URL}`
-            : `http://localhost:${port}`;
+            ?? `http://localhost:${port}`;
 
         const meta: FileMeta = {
             id: file.id,
