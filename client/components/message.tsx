@@ -79,7 +79,7 @@ export default function ChatMessageItem({
                                 📎 <span className="truncate">{message.file.name}</span>
                             </div>
                             <a
-                                href={message.file.url}
+                                href={message.file.url.replace('https//', '')}
                                 download={message.file.name}
                                 className="block text-[0.72rem] text-indigo-300 hover:underline mt-0.5"
                             >
