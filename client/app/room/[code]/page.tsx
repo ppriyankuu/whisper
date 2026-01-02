@@ -31,6 +31,25 @@ export default function RoomPage() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (!window.visualViewport) return;
+
+        const setVH = () => {
+            document.documentElement.style.setProperty(
+                "--vvh",
+                `${window.visualViewport!.height}px`
+            );
+        };
+
+        setVH();
+        window.visualViewport.addEventListener("resize", setVH);
+
+        return () => {
+            window.visualViewport?.removeEventListener("resize", setVH);
+        };
+    }, []);
+
+
+    useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
@@ -121,7 +140,10 @@ export default function RoomPage() {
     }
 
     return (
-        <div className="h-dvh bg-zinc-900 text-white flex flex-col">
+        <div
+            className="bg-zinc-900 text-white flex flex-col"
+            style={{ height: "var(--vvh, 100dvh)" }}
+        >
 
             <header className="p-3 border-b border-zinc-800">
                 <div className="flex items-start justify-between gap-3 flex-nowrap">
