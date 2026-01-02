@@ -33,16 +33,25 @@ export default function RoomPage() {
     useEffect(() => {
         if (!window.visualViewport) return;
 
+        let scrollY = 0;
+
         const handleViewportResize = () => {
             const vvh = window.visualViewport!.height;
+            document.documentElement.style.setProperty("--vvh", `${vvh}px`);
 
-            document.documentElement.style.setProperty(
-                "--vvh",
-                `${vvh}px`
-            );
+            const keyboardOpen = vvh < window.innerHeight - 80;
 
-            const keyboardOpen = vvh < window.innerHeight - 80; // threshold
-            document.body.style.overflow = keyboardOpen ? "hidden" : "";
+            if (keyboardOpen) {
+                scrollY = window.scrollY;
+                document.body.style.position = "fixed";
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.width = "100%";
+            } else {
+                document.body.style.position = "";
+                document.body.style.top = "";
+                document.body.style.width = "";
+                window.scrollTo(0, scrollY);
+            }
         };
 
         handleViewportResize();
@@ -50,10 +59,11 @@ export default function RoomPage() {
 
         return () => {
             window.visualViewport?.removeEventListener("resize", handleViewportResize);
-            document.body.style.overflow = "";
+            document.body.style.position = "";
+            document.body.style.top = "";
+            document.body.style.width = "";
         };
     }, []);
-
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

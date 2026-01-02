@@ -29,10 +29,6 @@ export default function ChatInput({
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        textareaRef.current?.focus();
-    }, []);
-
     const handleSend = async () => {
         if ((!input.trim() && !selectedFile) || !roomId || !userId) return;
 
@@ -93,6 +89,10 @@ export default function ChatInput({
         }
     };
 
+    const focusInput = () => {
+        textareaRef.current?.focus({ preventScroll: true });
+    };
+
     return (
         <div className="flex flex-col gap-2">
             {/* Reply preview */}
@@ -136,12 +136,7 @@ export default function ChatInput({
                 <textarea
                     ref={textareaRef}
                     value={input}
-                    // onFocus={(e) => {
-                    //     e.currentTarget.scrollIntoView({
-                    //         block: "nearest",
-                    //         behavior: "smooth",
-                    //     });
-                    // }}
+                    onFocus={focusInput}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type a message..."
