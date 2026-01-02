@@ -139,9 +139,9 @@ export default function RoomPage() {
     }
 
     return (
-        <div className="h-dvh bg-zinc-900 text-white flex flex-col overflow-y-auto">
+        <div className="h-dvh bg-zinc-900 text-white flex flex-col">
 
-            <header className="p-3 sm:p-4 border-b border-zinc-800">
+            <header className="p-3 border-b border-zinc-800">
                 <div className="flex items-start justify-between gap-3 flex-nowrap">
 
                     {/* LEFT */}
@@ -159,23 +159,30 @@ export default function RoomPage() {
                     </div>
 
                     {/* MIDDLE */}
-                    <div className="flex items-center gap-2 min-w-0 flex-1 justify-center">
-                        <span className="text-xs text-zinc-600 whitespace-nowrap">Room</span>
-
-                        <div
-                            onClick={copyRoomCode}
-                            className="cursor-pointer flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 px-2.5 py-1 rounded-md transition-colors"
-                        >
-                            <span className="font-mono text-sm truncate max-w-30">
-                                {roomId}
-                            </span>
-
-                            {copied ? (
-                                <span className="text-green-400 text-xs">✓</span>
-                            ) : (
-                                <span className="text-zinc-400 text-xs">📋</span>
-                            )}
+                    <div className="flex flex-col items-center gap-1.5 min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs text-zinc-600 whitespace-nowrap">Room</span>
+                            <div
+                                onClick={copyRoomCode}
+                                className="cursor-pointer flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 px-2.5 py-1 rounded-md transition-colors"
+                            >
+                                <span className="font-mono text-sm truncate max-w-30">
+                                    {roomId}
+                                </span>
+                                {copied ? (
+                                    <span className="text-green-400 text-xs">✓</span>
+                                ) : (
+                                    <span className="text-zinc-400 text-xs">📋</span>
+                                )}
+                            </div>
                         </div>
+
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="xl:hidden text-md text-zinc-400 bg-zinc-800 px-2 py-1 rounded-full flex items-center gap-1 transition-colors"
+                        >
+                            ↻
+                        </button>
                     </div>
 
                     {/* RIGHT */}
@@ -198,14 +205,14 @@ export default function RoomPage() {
                 </div>
             </header>
 
-            <div className="flex flex-1 min-h-0 overflow-hidden p-2 md:p-4 gap-4">
+            <div
+                style={{
+                    paddingBottom: keyboardOffset > 0 ? keyboardOffset : undefined,
+                }}
+                className="flex flex-1 min-h-0 overflow-hidden p-2 md:p-4 gap-4"
+            >
                 <div className="flex-1 flex flex-col min-h-0 w-full max-w-3xl mx-auto">
-
-                    <div
-                        style={{
-                            marginBottom: keyboardOffset ? keyboardOffset : undefined,
-                        }}
-                        className="chat-scroll flex-1 min-h-0 overflow-y-auto rounded-lg bg-zinc-800 p-3 sm:p-4 mb-3">
+                    <div className="chat-scroll flex-1 min-h-0 overflow-y-auto rounded-lg bg-zinc-800 p-3 sm:p-4 mb-3">
                         <ChatMessages func={deleteMessage} messages={messages} />
                         <div ref={messagesEndRef} />
                     </div>
