@@ -24,10 +24,9 @@ export default function ChatMessageItem({
 
     const isCurrentlyReplied = repliedMessage?.id === message.id;
 
-    const fixedUrl = message.file?.url.startsWith('https://https//')
-        ? message.file.url.replace('https://https//', 'https://')
-        : message.file?.url;
-
+    const fixedUrl = message.file?.url
+        ? message.file.url.replace(/^https:\/\/https\/\//, 'https://')
+        : undefined;
 
     return (
         <div
