@@ -136,12 +136,12 @@ export default function ChatInput({
                 <textarea
                     ref={textareaRef}
                     value={input}
-                    onFocus={(e) => {
-                        e.currentTarget.scrollIntoView({
-                            block: "nearest",
-                            behavior: "smooth",
-                        });
-                    }}
+                    // onFocus={(e) => {
+                    //     e.currentTarget.scrollIntoView({
+                    //         block: "nearest",
+                    //         behavior: "smooth",
+                    //     });
+                    // }}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type a message..."
