@@ -50,12 +50,16 @@ function createServer(port: number) {
 
         const file = storedFile(roomId, filename, buffer, contentType);
 
+        const baseUrl = process.env.RENDER_EXTERNAL_URL
+            ? `https://${process.env.RENDER_EXTERNAL_URL}`
+            : `http://localhost:${port}`;
+
         const meta: FileMeta = {
             id: file.id,
             name: file.name,
             size: file.size,
             mime: file.mime,
-            url: `http://localhost:8080/files/${roomId}/${file.id}`,
+            url: `${baseUrl}/files/${roomId}/${file.id}`,
         };
 
         room.files.set(file.id, meta);

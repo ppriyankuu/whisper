@@ -14,6 +14,8 @@ type RoomClosedHandler = (reason: string) => void;
 type RoomMessagesHandler = (messages: ChatMessage[]) => void;
 type MessageDeletedHandler = (messageId: string) => void;
 
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL ?? '';
+
 export function useWebSocket(
     roomId: string,
     handlers: {
@@ -38,7 +40,7 @@ export function useWebSocket(
         if (!roomId) return;
         if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
-        const wsUrl = `ws://localhost:8080`;
+        const wsUrl = `${backendUrl.replace(/^http/, 'ws')}`;
         const socket = new WebSocket(wsUrl);
         wsRef.current = socket;
 

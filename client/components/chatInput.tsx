@@ -45,7 +45,7 @@ export default function ChatInput({
             setUploading(true);
             try {
                 const res = await fetch(
-                    `http://localhost:8080/upload?roomId=${roomId}&userId=${userId}`,
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload?roomId=${roomId}&userId=${userId}`,
                     {
                         method: 'POST',
                         body: selectedFile,
