@@ -33,18 +33,24 @@ export default function RoomPage() {
     useEffect(() => {
         if (!window.visualViewport) return;
 
-        const setVH = () => {
+        const handleViewportResize = () => {
+            const vvh = window.visualViewport!.height;
+
             document.documentElement.style.setProperty(
                 "--vvh",
-                `${window.visualViewport!.height}px`
+                `${vvh}px`
             );
+
+            const keyboardOpen = vvh < window.innerHeight - 80; // threshold
+            document.body.style.overflow = keyboardOpen ? "hidden" : "";
         };
 
-        setVH();
-        window.visualViewport.addEventListener("resize", setVH);
+        handleViewportResize();
+        window.visualViewport.addEventListener("resize", handleViewportResize);
 
         return () => {
-            window.visualViewport?.removeEventListener("resize", setVH);
+            window.visualViewport?.removeEventListener("resize", handleViewportResize);
+            document.body.style.overflow = "";
         };
     }, []);
 
