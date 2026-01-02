@@ -139,7 +139,7 @@ export default function RoomPage() {
     }
 
     return (
-        <div className="h-dvh bg-zinc-900 text-white flex flex-col overflow-hidden">
+        <div className="h-dvh bg-zinc-900 text-white flex flex-col overflow-y-auto">
 
             <header className="p-3 sm:p-4 border-b border-zinc-800">
                 <div className="flex items-start justify-between gap-3 flex-nowrap">
