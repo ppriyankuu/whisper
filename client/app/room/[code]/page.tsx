@@ -30,24 +30,6 @@ export default function RoomPage() {
     const [roomClosed, setRoomClosed] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const [keyboardOffset, setKeyboardOffset] = useState(0);
-
-    useEffect(() => {
-        if (typeof window === "undefined" || !window.visualViewport) return;
-
-        const viewport = window.visualViewport;
-
-        const handleResize = () => {
-            const offset = window.innerHeight - viewport.height;
-            setKeyboardOffset(offset > 0 ? offset : 0);
-        };
-
-        viewport.addEventListener("resize", handleResize);
-        handleResize();
-
-        return () => viewport.removeEventListener("resize", handleResize);
-    }, []);
-
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
@@ -206,9 +188,6 @@ export default function RoomPage() {
             </header>
 
             <div
-                style={{
-                    paddingBottom: keyboardOffset > 0 ? keyboardOffset : undefined,
-                }}
                 className="flex flex-1 min-h-0 overflow-hidden p-2 md:p-4 gap-4"
             >
                 <div className="flex-1 flex flex-col min-h-0 w-full max-w-3xl mx-auto">
