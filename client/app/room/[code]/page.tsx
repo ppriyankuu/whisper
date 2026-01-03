@@ -4,6 +4,7 @@ import ChatInput from "@/components/chatInput";
 import ChatMessages from "@/components/chatMessages";
 import CountdownTimer from "@/components/countdown";
 import UserList from "@/components/userList";
+import { useKeyboardOffset } from "@/hooks/useKeyboardOffset";
 import { useWebSocket } from "@/hooks/useWebSocket";
 import { useRoom } from "@/lib/roomContext";
 import { ChatMessage, FileMeta } from "@/types";
@@ -29,6 +30,8 @@ export default function RoomPage() {
     const [usernames, setUsernames] = useState<string[]>([]);
     const [roomClosed, setRoomClosed] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const keyboardOffset = useKeyboardOffset();
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -58,7 +61,6 @@ export default function RoomPage() {
     const onMessageDeleted = (messageId: string) => {
         setMessages(prev => prev.filter(m => m.id !== messageId));
     };
-
 
     const onRoomClosed = (reason: string) => {
         setRoomClosed(true);
@@ -201,7 +203,13 @@ export default function RoomPage() {
                     </div>
                 </div>
 
-                <div className="md:hidden fixed bottom-0 rounded-lg m-2 left-0 right-0 z-40">
+                <div
+                    className="md:hidden fixed left-0 right-0 z-40 m-2 rounded-lg transition-transform duration-200"
+                    style={{
+                        bottom: 0,
+                        transform: `translateY(-${keyboardOffset}px)`
+                    }}
+                >
                     <ChatInput onSend={handleSend} />
                 </div>
 

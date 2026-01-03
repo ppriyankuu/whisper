@@ -131,6 +131,9 @@ export default function ChatInput({
             <div className="flex gap-2">
                 <textarea
                     ref={textareaRef}
+                    onFocus={(e) => {
+                        e.target.scrollIntoView({ block: "nearest" });
+                    }}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
