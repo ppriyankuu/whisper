@@ -22,7 +22,7 @@ All data is temporary — rooms and files auto-delete when the session ends.
 - Each room runs on a `45-minute` TTL timer.
 - When the last user leaves or the timer expires, the room and all files are purged.
 - File uploads are stored in a temporary directory on the server and cleaned up with the room.
-- WebSocket (or HTTP long-polling) handles real-time messaging and replies.
+- WebSocket handles real-time messaging and replies.
 - User identity is scoped to the room only — no cross-room tracking.
 
 ### Folder structure    
