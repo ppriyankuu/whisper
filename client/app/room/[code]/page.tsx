@@ -31,41 +31,6 @@ export default function RoomPage() {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (!window.visualViewport) return;
-
-        let scrollY = 0;
-
-        const handleViewportResize = () => {
-            const vvh = window.visualViewport!.height;
-            document.documentElement.style.setProperty("--vvh", `${vvh}px`);
-
-            const keyboardOpen = vvh < window.innerHeight - 80;
-
-            if (keyboardOpen) {
-                scrollY = window.scrollY;
-                document.body.style.position = "fixed";
-                document.body.style.top = `-${scrollY}px`;
-                document.body.style.width = "100%";
-            } else {
-                document.body.style.position = "";
-                document.body.style.top = "";
-                document.body.style.width = "";
-                window.scrollTo(0, scrollY);
-            }
-        };
-
-        handleViewportResize();
-        window.visualViewport.addEventListener("resize", handleViewportResize);
-
-        return () => {
-            window.visualViewport?.removeEventListener("resize", handleViewportResize);
-            document.body.style.position = "";
-            document.body.style.top = "";
-            document.body.style.width = "";
-        };
-    }, []);
-
-    useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
@@ -156,10 +121,7 @@ export default function RoomPage() {
     }
 
     return (
-        <div
-            className="bg-zinc-900 text-white flex flex-col"
-            style={{ height: "var(--vvh, 100dvh)" }}
-        >
+        <div className="h-dvh bg-zinc-900 text-white flex flex-col overflow-hidden">
 
             <header className="p-3 border-b border-zinc-800">
                 <div className="flex items-start justify-between gap-3 flex-nowrap">
@@ -229,11 +191,17 @@ export default function RoomPage() {
                 className="flex flex-1 min-h-0 overflow-hidden p-2 md:p-4 gap-4"
             >
                 <div className="flex-1 flex flex-col min-h-0 w-full max-w-3xl mx-auto">
-                    <div className="chat-scroll flex-1 min-h-0 overflow-y-auto rounded-lg bg-zinc-800 p-3 sm:p-4 mb-3">
+                    <div className="chat-scroll flex-1 min-h-0 overflow-y-auto rounded-lg bg-zinc-800 p-3 sm:p-4 md:mb-3 mb-21">
                         <ChatMessages func={deleteMessage} messages={messages} />
                         <div ref={messagesEndRef} />
                     </div>
 
+                    <div className="hidden md:block">
+                        <ChatInput onSend={handleSend} />
+                    </div>
+                </div>
+
+                <div className="md:hidden fixed bottom-0 rounded-lg m-2 left-0 right-0 z-40">
                     <ChatInput onSend={handleSend} />
                 </div>
 

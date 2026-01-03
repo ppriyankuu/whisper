@@ -89,10 +89,6 @@ export default function ChatInput({
         }
     };
 
-    const focusInput = () => {
-        textareaRef.current?.focus({ preventScroll: true });
-    };
-
     return (
         <div className="flex flex-col gap-2">
             {/* Reply preview */}
@@ -136,7 +132,6 @@ export default function ChatInput({
                 <textarea
                     ref={textareaRef}
                     value={input}
-                    onFocus={focusInput}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Type a message..."
