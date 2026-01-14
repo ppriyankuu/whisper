@@ -86,13 +86,20 @@ function createServer(port: number) {
         createReadStream(filePath).pipe(res);
     })
 
+    app.get("/health", (_req, res) => {
+        res.status(200).send("ok");
+    });
+
     app.use((_req: Request, res: Response) => {
         res.status(404).send("Not found");
     });
 
     const server = http.createServer(app);
-    const wss = new WebSocket.Server({ server });
-    wss.on("connection", handleConnection);
 
-    server.listen(port, () => console.log("ws://localhost:8080"));
+    server.listen(port, () => {
+        console.log("server listening on port 8080");
+
+        const wss = new WebSocket.Server({ server });
+        wss.on("connection", handleConnection);
+    });
 };

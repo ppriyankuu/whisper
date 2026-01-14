@@ -77,12 +77,17 @@ function createServer(port) {
         res.setHeader("Content-Disposition", `attachment; filename="${meta.name}"`);
         (0, fs_1.createReadStream)(filePath).pipe(res);
     });
+    app.get("/health", (_req, res) => {
+        res.status(200).send("ok");
+    });
     app.use((_req, res) => {
         res.status(404).send("Not found");
     });
     const server = http_1.default.createServer(app);
-    const wss = new ws_1.WebSocket.Server({ server });
-    wss.on("connection", ws_2.handleConnection);
-    server.listen(port, () => console.log("ws://localhost:8080"));
+    server.listen(port, () => {
+        console.log("server listening on port 8080");
+        const wss = new ws_1.WebSocket.Server({ server });
+        wss.on("connection", ws_2.handleConnection);
+    });
 }
 ;
