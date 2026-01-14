@@ -58,6 +58,15 @@ export default function Home() {
               Join
             </button>
           </div>
+
+          <div className="mt-6 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-xs text-zinc-400">
+            <span className="font-medium bg-zinc-700 text-zinc-400 px-1 rounded">Note:</span>{" "}
+            The backend runs on a free tier. If no one’s using it, it goes to sleep 😴
+            <br />
+            So when you open this, it’s probably waking up.
+            <br />
+            Give it a bit of time — sometimes it takes a minute or two.
+          </div>
         </div>
       </div>
     </div>
