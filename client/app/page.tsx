@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Github } from "lucide-react";
+import Link from 'next/link';
 
 export function generateId(): string {
   return crypto.randomUUID().slice(0, 6);
@@ -26,7 +28,7 @@ export default function Home() {
     <div className="min-h-screen flex items-center justify-center bg-zinc-900 text-white p-4">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold leading-[1.2] bg-linear-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
             Whisper🎗️
           </h1>
           <p className="text-zinc-400 text-sm leading-relaxed">
@@ -67,6 +69,15 @@ export default function Home() {
             <br />
             Give it a bit of time — sometimes it takes a minute or two.
           </div>
+          <Link
+            href="https://github.com/ppriyankuu/whisper"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 py-2 text-sm text-zinc-400 hover:text-white transition-colors"
+          >
+            <Github size={18} />
+            View on GitHub
+          </Link>
         </div>
       </div>
     </div>
