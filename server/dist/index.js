@@ -25,7 +25,7 @@ const fs_1 = require("fs");
 createServer(8080);
 function createServer(port) {
     const app = (0, express_1.default)();
-    app.use((0, cors_1.default)());
+    app.use((0, cors_1.default)({ origin: '*' }));
     app.use(express_1.default.raw({ limit: "10mb", type: "*/*" }));
     app.post("/upload", (req, res) => __awaiter(this, void 0, void 0, function* () {
         var _a;

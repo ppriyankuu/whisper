@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Github } from "lucide-react";
 import Link from 'next/link';
@@ -12,6 +12,23 @@ export function generateId(): string {
 export default function Home() {
   const router = useRouter()
   const [roomCode, setRoomCode] = useState('')
+  const [status, setStatus] = useState<'checking' | 'online' | 'offline'>('checking')
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      setStatus('checking')
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/health`)
+        setStatus(res.ok ? 'online' : 'offline')
+      } catch {
+        setStatus('offline')
+      }
+    }
+
+    checkHealth()
+    const interval = setInterval(checkHealth, 60000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleJoinRoom = () => {
     const trimmed = roomCode.trim();
@@ -63,11 +80,20 @@ export default function Home() {
 
           <div className="mt-6 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-xs text-zinc-400">
             <span className="font-medium bg-zinc-700 text-zinc-400 px-1 rounded">Note:</span>{" "}
-            The backend runs on a free tier. If no one’s using it, it goes to sleep 😴
+            The backend runs on a free tier. If no one's using it, it goes to sleep 😴
             <br />
-            So when you open this, it’s probably waking up.
+            So when you open this, it's probably waking up.
             <br />
             Give it a bit of time — sometimes it takes a minute or two.
+          </div>
+          <div className="flex items-center justify-center gap-2 text-sm text-zinc-400">
+            <div
+              className="w-2 h-2 rounded-full"
+              style={{
+                backgroundColor: status === 'checking' ? '#fbbf24' : status === 'online' ? '#22c55e' : '#ef4444',
+              }}
+            />
+            <span>{status === 'checking' ? 'Checking...' : status === 'online' ? 'Online' : 'Offline'}</span>(Server)
           </div>
           <Link
             href="https://github.com/ppriyankuu/whisper"

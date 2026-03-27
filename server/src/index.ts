@@ -15,7 +15,7 @@ createServer(8080);
 
 function createServer(port: number) {
     const app = express();
-    app.use(cors());
+    app.use(cors({ origin: '*' }));
     app.use(express.raw({ limit: "10mb", type: "*/*" }));
 
     app.post("/upload", async (req: Request, res: Response) => {
